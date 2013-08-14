@@ -55,7 +55,7 @@
 - (id)copyWithZone:(NSZone *)zone
 {
     CPBTransitionTable *copy = [self.class allocWithZone:zone];
-    copy->_eventMappings = [self.eventMappings copyWithZone:zone];
+    copy->_eventMappings = [self.eventMappings mutableCopyWithZone:zone];
     
     return copy;
 }
