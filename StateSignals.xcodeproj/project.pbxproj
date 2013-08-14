@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C7017ABD17BBA42B00DB94B6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7017ABC17BBA42B00DB94B6 /* Foundation.framework */; };
-		C7017AC217BBA42B00DB94B6 /* StateSignals.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7017AC117BBA42B00DB94B6 /* StateSignals.h */; };
-		C7017AC417BBA42B00DB94B6 /* StateSignals.m in Sources */ = {isa = PBXBuildFile; fileRef = C7017AC317BBA42B00DB94B6 /* StateSignals.m */; };
+		C7017AC217BBA42B00DB94B6 /* CPBSignalMachine.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C7017AC117BBA42B00DB94B6 /* CPBSignalMachine.h */; };
+		C7017AC417BBA42B00DB94B6 /* CPBSignalMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = C7017AC317BBA42B00DB94B6 /* CPBSignalMachine.m */; };
 		C7017ACB17BBA42B00DB94B6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7017ACA17BBA42B00DB94B6 /* XCTest.framework */; };
 		C7017ACC17BBA42B00DB94B6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7017ABC17BBA42B00DB94B6 /* Foundation.framework */; };
 		C7017ACE17BBA42B00DB94B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7017ACD17BBA42B00DB94B6 /* UIKit.framework */; };
@@ -17,6 +17,7 @@
 		C7017AD717BBA42B00DB94B6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C7017AD517BBA42B00DB94B6 /* InfoPlist.strings */; };
 		C7017AD917BBA42B00DB94B6 /* StateSignalsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C7017AD817BBA42B00DB94B6 /* StateSignalsTests.m */; };
 		C757548417BBBB2200AA5EF2 /* libReactiveCocoa-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C719ED6517BBBAE900401217 /* libReactiveCocoa-iOS.a */; };
+		C719ED5617BBAB0F00401217 /* CPBTransitionTable.m in Sources */ = {isa = PBXBuildFile; fileRef = C719ED5517BBAB0F00401217 /* CPBTransitionTable.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,7 +86,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				C7017AC217BBA42B00DB94B6 /* StateSignals.h in CopyFiles */,
+				C7017AC217BBA42B00DB94B6 /* CPBSignalMachine.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +96,8 @@
 		C7017AB917BBA42B00DB94B6 /* libStateSignals.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStateSignals.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7017ABC17BBA42B00DB94B6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C7017AC017BBA42B00DB94B6 /* StateSignals-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StateSignals-Prefix.pch"; sourceTree = "<group>"; };
-		C7017AC117BBA42B00DB94B6 /* StateSignals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateSignals.h; sourceTree = "<group>"; };
-		C7017AC317BBA42B00DB94B6 /* StateSignals.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StateSignals.m; sourceTree = "<group>"; };
+		C7017AC117BBA42B00DB94B6 /* CPBSignalMachine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CPBSignalMachine.h; sourceTree = "<group>"; };
+		C7017AC317BBA42B00DB94B6 /* CPBSignalMachine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CPBSignalMachine.m; sourceTree = "<group>"; };
 		C7017AC917BBA42B00DB94B6 /* StateSignalsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StateSignalsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7017ACA17BBA42B00DB94B6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C7017ACD17BBA42B00DB94B6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -104,6 +105,8 @@
 		C7017AD617BBA42B00DB94B6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C7017AD817BBA42B00DB94B6 /* StateSignalsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StateSignalsTests.m; sourceTree = "<group>"; };
 		C719ED5717BBBAE800401217 /* ReactiveCocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactiveCocoa.xcodeproj; path = External/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoa.xcodeproj; sourceTree = "<group>"; };
+		C719ED5417BBAB0F00401217 /* CPBTransitionTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPBTransitionTable.h; sourceTree = "<group>"; };
+		C719ED5517BBAB0F00401217 /* CPBTransitionTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPBTransitionTable.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,9 +166,11 @@
 		C7017AE217BBA56E00DB94B6 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				C7017AC117BBA42B00DB94B6 /* StateSignals.h */,
-				C7017AC317BBA42B00DB94B6 /* StateSignals.m */,
 				C7017AC017BBA42B00DB94B6 /* StateSignals-Prefix.pch */,
+				C7017AC117BBA42B00DB94B6 /* CPBSignalMachine.h */,
+				C7017AC317BBA42B00DB94B6 /* CPBSignalMachine.m */,
+				C719ED5417BBAB0F00401217 /* CPBTransitionTable.h */,
+				C719ED5517BBAB0F00401217 /* CPBTransitionTable.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -326,7 +331,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7017AC417BBA42B00DB94B6 /* StateSignals.m in Sources */,
+				C7017AC417BBA42B00DB94B6 /* CPBSignalMachine.m in Sources */,
+				C719ED5617BBAB0F00401217 /* CPBTransitionTable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

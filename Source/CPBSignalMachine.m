@@ -1,13 +1,13 @@
 //
-//  StateSignals.h
-//  StateSignals
+//  CPBSignalMachine.m
+//  CPBStateSignals
 //
 //  Created by Erik Price on 2013-08-14.
 //  Copyright (c) 2013 Erik Price. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "CPBSignalMachine.h"
 
-@interface StateSignals : NSObject
+@implementation CPBSignalMachine
 
 @end
