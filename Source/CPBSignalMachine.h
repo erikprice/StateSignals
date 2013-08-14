@@ -8,16 +8,29 @@
 
 #import <Foundation/Foundation.h>
 
+
+extern NSString * const CPBSignalMachineStateInitial;
+extern NSString * const CPBStateSignalsErrorDomain;
+extern NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered;
+
+
 @class CPBTransitionTable;
 
 
 @interface CPBSignalMachine : NSObject
 
-/// Creates a new signal machine with the specified transition table.
+/// Creates a new signal machine with the specified transition table and an initial state of CPBSignalMachineStateInitial.
 ///
 /// @param table The transition table to be used by this signal machine. A defensive copy is made.
 /// @return The newly-created signal machine.
 - (id)initWithTransitionTable:(CPBTransitionTable *)table;
+
+/// Creates a new signal machine with the specified transition table and initial state.
+///
+/// @param table The transition table to be used by this signal machine. A defensive copy is made.
+/// @param initialState The initial state for this signal machine.
+/// @return The newly-created signal machine.
+- (id)initWithTransitionTable:(CPBTransitionTable *)table initialState:(NSString *)initialState;
 
 /// Notifies this signal machine of a new input event, to prompt a transition.
 ///
@@ -30,37 +43,37 @@
 /// @param eventContext A context object to be included as payload to transition handlers.
 - (void)inputEvent:(NSString *)event context:(id)eventContext;
 
-/// Returns a new signal which sends every event received by this signal machine.
+/// Returns a signal which sends a tuple for every transition made by this signal machine.
+/// The tuple consists of the "from state", the "to state", the input event, and the event context (or NSNull if none was provided).
+/// If a transition is not registered for an event in a given "from state", the tuple's "to state" will be NSNull.
+/// (Will not send an error if an event is sent which has no corresponding transition mapping.)
 ///
-/// @return a new signal which sends every event received by this signal machine.
-- (RACSignal *)allEvents;
-
-/// Returns a new signal which sends every transition made by this signal machine.
-/// Sends an error if any event is sent which has no corresponding transition mapping.
-///
-/// @return a new signal which sends every transition made by this signal machine.
+/// @return a signal which sends every transition made by this signal machine.
 - (RACSignal *)allTransitions;
 
-/// Returns a new signal which sends every transition made by this signal machine from the specified state.
+/// Returns a signal which sends a tuple for every transition made by this signal machine from the specified state.
+/// The tuple consists of the "from state", the "to state", the input event, and the event context (or NSNull if none was provided).
 /// Sends an error if any event is sent which has no corresponding transition mapping.
 ///
 /// @param fromState The "from state" from which transitions must be made to be sent on the returned signal.
-/// @return a new signal which sends every transition made by this signal machine from the specified state.
+/// @return a signal which sends every transition made by this signal machine from the specified state.
 - (RACSignal *)transitionsFrom:(NSString *)fromState;
 
-/// Returns a new signal which sends every transition made by this signal machine from the specified `fromState` to the specified `toState`.
+/// Returns a signal which sends a tuple for every transition made by this signal machine from the specified `fromState` to the specified `toState`.
+/// The tuple consists of the "from state", the "to state", the input event, and the event context (or NSNull if none was provided).
 /// Sends an error if any event is sent which has no corresponding transition mapping.
 ///
 /// @param fromState The "from state" from which transitions must be made to be sent on the returned signal.
 /// @param toState The "to state" to which transitions must be made to be sent on the returned signal.
-/// @return a new signal which sends every transition made by this signal machine from the specified `fromState` to the specified `toState`.
+/// @return a signal which sends every transition made by this signal machine from the specified `fromState` to the specified `toState`.
 - (RACSignal *)transitionsFrom:(NSString *)fromState to:(NSString *)toState;
 
-/// Returns a new signal which sends every transition made by this signal machine to the specified state.
+/// Returns a signal which sends a tuple for every transition made by this signal machine to the specified state.
+/// The tuple consists of the "from state", the "to state", the input event, and the event context (or NSNull if none was provided).
 /// Sends an error if any event is sent which has no corresponding transition mapping.
 ///
 /// @param toState The "to state" to which transitions must be made to be sent on the returned signal.
-/// @return a new signal which sends every transition made by this signal machine to the specified state.
+/// @return a signal which sends every transition made by this signal machine to the specified state.
 - (RACSignal *)transitionsTo:(NSString *)toState;
 
 @end
