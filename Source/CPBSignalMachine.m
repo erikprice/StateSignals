@@ -11,7 +11,6 @@
 #import "CPBTransitionTable.h"
 
 
-NSString * const CPBSignalMachineStateInitial = @"initial";
 NSString * const CPBStateSignalsErrorDomain = @"CPBStateSignalsDomain";
 NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered = 1;
 
@@ -42,11 +41,6 @@ NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered = 1;
     }
     
     return self;
-}
-
-- (id)initWithTransitionTable:(CPBTransitionTable *)table
-{
-    return [self initWithTransitionTable:table initialState:CPBSignalMachineStateInitial];
 }
 
 - (void)inputEvent:(NSString *)event

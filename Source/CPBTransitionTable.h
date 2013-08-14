@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface CPBTransitionTable : NSObject <NSCopying, NSObject>
 
 /// Maps an event to a transition from one state to another.

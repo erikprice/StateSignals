@@ -3,7 +3,7 @@
 //  StateSignals
 //
 //  Created by Erik Price on 2013-08-14.
-//  Copyright (c) 2013 Conceptual Plumbing. All rights reserved.
+//  Copyright (c) 2013 Erik Price. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
@@ -27,14 +27,14 @@ CPBTransitionTable *_table;
     [super setUp];
     
     _table = [[CPBTransitionTable alloc] init];
-    [_table mapEvent:@"start" from:CPBSignalMachineStateInitial to:@"A"];
+    [_table mapEvent:@"start" from:@"initial" to:@"A"];
     [_table mapEvent:@"event0" from:@"A" to:@"B"];
     [_table mapEvent:@"event1" from:@"B" to:@"C"];
     [_table mapEvent:@"event2" from:@"C" to:@"D"];
     [_table mapEvent:@"event3" from:@"D" to:@"A"];
     [_table mapEvent:@"event3" from:@"B" to:@"D"];
     
-    _machine = [[CPBSignalMachine alloc] initWithTransitionTable:_table];
+    _machine = [[CPBSignalMachine alloc] initWithTransitionTable:_table initialState:@"initial"];
 }
 
 - (void)tearDown

@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-extern NSString * const CPBSignalMachineStateInitial;
 extern NSString * const CPBStateSignalsErrorDomain;
 extern NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered;
 
@@ -18,12 +17,6 @@ extern NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered;
 
 
 @interface CPBSignalMachine : NSObject
-
-/// Creates a new signal machine with the specified transition table and an initial state of CPBSignalMachineStateInitial.
-///
-/// @param table The transition table to be used by this signal machine. A defensive copy is made.
-/// @return The newly-created signal machine.
-- (id)initWithTransitionTable:(CPBTransitionTable *)table;
 
 /// Creates a new signal machine with the specified transition table and initial state.
 ///
