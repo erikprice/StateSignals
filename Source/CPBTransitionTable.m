@@ -60,4 +60,34 @@
     return copy;
 }
 
+- (NSString *)description
+{
+    NSMutableString *desc = [NSMutableString stringWithFormat:@"<%@: %p;", self.class, self];
+    
+    NSMutableString *table = [NSMutableString stringWithString:@" eventMappings:\n"];
+    for (NSString *event in self.eventMappings)
+    {
+        NSDictionary *transitions = self.eventMappings[event];
+        for (NSString *fromState in transitions)
+        {
+            NSString *toState = transitions[fromState];
+            [table appendFormat:@"\t{ event: %@, from: %@, to: %@ },\n", event, fromState, toState];
+        }
+    }
+    
+    // Drop the last comma.
+    if ([table length] > 0)
+    {
+        NSRange lastChars;
+        lastChars.location = [table length] - 2;
+        lastChars.length = 1;
+        [table deleteCharactersInRange:lastChars];
+    }
+    
+    [desc appendString:table];
+    [desc appendFormat:@">"];
+    
+    return desc;
+}
+
 @end
