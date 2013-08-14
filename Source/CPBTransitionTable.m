@@ -31,19 +31,19 @@
 
 - (void)mapEvent:(NSString *)event from:(NSString *)fromState to:(NSString *)toState
 {
-    NSMutableDictionary *transition = self.eventMappings[event];
-    if (!transition)
+    NSMutableDictionary *transitions = self.eventMappings[event];
+    if (!transitions)
     {
-        transition = [[NSMutableDictionary alloc] init];
-        self.eventMappings[event] = transition;
+        transitions = [[NSMutableDictionary alloc] init];
+        self.eventMappings[event] = transitions;
     }
     
-    if (transition[fromState])
+    if (transitions[fromState])
     {
-        NSLog(@"Warning: -[CPBTransitionTable mapEvent:%@ from:%@ to:%@] overwriting existing transition to '%@'.", event, fromState, toState, transition[fromState]);
+        NSLog(@"Warning: -[CPBTransitionTable mapEvent:%@ from:%@ to:%@] overwriting existing transition to '%@'.", event, fromState, toState, transitions[fromState]);
     }
     
-    transition[fromState] = toState;
+    transitions[fromState] = toState;
 }
 
 - (NSString *)toStateForEvent:(NSString *)event from:(NSString *)fromState
