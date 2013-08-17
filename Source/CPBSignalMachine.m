@@ -68,13 +68,24 @@ NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered = 1;
 
 - (RACSignal *)allTransitions
 {
-    // This signal does not error if no transition is found.
-    return self.subject;
+    return [self allTransitionsWithErrorOnTransitionFault:NO];
+}
+
+- (RACSignal *)allTransitionsWithErrorOnTransitionFault:(BOOL)sendErrorOnFault
+{
+    RACSignal *source = sendErrorOnFault ? [CPBSignalMachine errorOnTransitionFault:self.subject] : self.subject;
+    return source;
 }
 
 - (RACSignal *)transitionsFrom:(NSString *)fromState
 {
-    return [[self mapMissingTransitionsToError]
+    return [self transitionsFrom:fromState errorOnTransitionFault:NO];
+}
+
+- (RACSignal *)transitionsFrom:(NSString *)fromState errorOnTransitionFault:(BOOL)sendErrorOnFault
+{
+    RACSignal *source = sendErrorOnFault ? [CPBSignalMachine errorOnTransitionFault:self.subject] : self.subject;
+    return [source
     filter:^BOOL(RACTuple *transition) {
         
         return [fromState isEqualToString:transition.first];
@@ -84,7 +95,13 @@ NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered = 1;
 
 - (RACSignal *)transitionsFrom:(NSString *)fromState to:(NSString *)toState
 {
-    return [[self mapMissingTransitionsToError]
+    return [self transitionsFrom:fromState to:toState errorOnTransitionFault:NO];
+}
+
+- (RACSignal *)transitionsFrom:(NSString *)fromState to:(NSString *)toState errorOnTransitionFault:(BOOL)sendErrorOnFault
+{
+    RACSignal *source = sendErrorOnFault ? [CPBSignalMachine errorOnTransitionFault:self.subject] : self.subject;
+    return [source
     filter:^BOOL(RACTuple *transition) {
         
         return [fromState isEqualToString:transition.first] && [toState isEqualToString:transition.second];
@@ -94,7 +111,13 @@ NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered = 1;
 
 - (RACSignal *)transitionsTo:(NSString *)toState
 {
-    return [[self mapMissingTransitionsToError]
+    return [self transitionsTo:toState errorOnTransitionFault:NO];
+}
+
+- (RACSignal *)transitionsTo:(NSString *)toState errorOnTransitionFault:(BOOL)sendErrorOnFault
+{
+    RACSignal *source = sendErrorOnFault ? [CPBSignalMachine errorOnTransitionFault:self.subject] : self.subject;
+    return [source
     filter:^BOOL(RACTuple *transition) {
         
         return [toState isEqualToString:transition.second];
@@ -102,9 +125,35 @@ NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered = 1;
     }];
 }
 
-- (RACSignal *)mapMissingTransitionsToError
+- (RACSignal *)transitionFaults
 {
-    return [[[self.subject
+    return [self transitionFaultsWithError:NO];
+}
+
+- (RACSignal *)transitionFaultsWithError:(BOOL)sendErrorOnFault
+{
+    RACSignal *source = sendErrorOnFault ? [CPBSignalMachine errorOnTransitionFault:self.subject] : self.subject;
+    return [source
+    filter:^BOOL(RACTuple *transition) {
+        
+        return NSNull.null == transition.second;
+        
+    }];
+}
+
+- (NSString *)description
+{
+    NSMutableString *desc = [[NSMutableString alloc] initWithFormat:@"<%@: %p;", self.class, self];
+    [desc appendFormat:@" currentState = %@;", self.currentState];
+    [desc appendFormat:@" transitionTable = %@;", self.transitionTable];
+    [desc appendString:@">"];
+    
+    return desc;
+}
+
++ (RACSignal *)errorOnTransitionFault:(RACSignal *)source
+{
+    return [[[source
     materialize]
     map:^id(RACEvent *racEvent) {
                  
@@ -130,16 +179,6 @@ NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered = 1;
         return racEvent;
          
     }] dematerialize];
-}
-
-- (NSString *)description
-{
-    NSMutableString *desc = [[NSMutableString alloc] initWithFormat:@"<%@: %p;", self.class, self];
-    [desc appendFormat:@" currentState = %@;", self.currentState];
-    [desc appendFormat:@" transitionTable = %@;", self.transitionTable];
-    [desc appendString:@">"];
-    
-    return desc;
 }
 
 @end

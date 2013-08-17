@@ -117,14 +117,18 @@ CPBTransitionTable *_table;
     XCTAssertFalse(errored, @"");
 }
 
-- (void)testTransitionsFrom_NoTransitionMappedForEvent_SendsError
+- (void)testTransitionsFrom_NoTransitionMappedForEvent_SendsNilToState
 {
+    [_machine inputEvent:@"start"];
+    [_machine inputEvent:@"event0"];
+    
     __block BOOL executed = NO;
     __block BOOL errored = NO;
     RACSignal *signal = [_machine transitionsFrom:@"B"];
     [signal subscribeNext:^(RACTuple *transition) {
         
         executed = YES;
+        XCTAssertEqualObjects(NSNull.null, transition.second, @"");
         
     } error:^(NSError *error) {
         
@@ -134,8 +138,8 @@ CPBTransitionTable *_table;
     
     [_machine inputEvent:@"unregistered"];
     
-    XCTAssertFalse(executed, @"");
-    XCTAssertTrue(errored, @"");
+    XCTAssertTrue(executed, @"");
+    XCTAssertFalse(errored, @"");
 }
 
 - (void)testTransitions_NoTransitionMappedForEvent_SendsNSNull
