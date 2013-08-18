@@ -164,4 +164,71 @@ CPBTransitionTable *_table;
     XCTAssertFalse(errored, @"");
 }
 
+- (void)testTransitionFaults_TransitionFault_SendsNSNullTransition
+{
+    __block BOOL executed = NO;
+    __block BOOL errored = NO;
+    RACSignal *signal = [_machine transitionFaults];
+    [signal subscribeNext:^(RACTuple *transition) {
+        
+        executed = YES;
+        XCTAssertEqualObjects(NSNull.null, transition.second, @"");
+        
+    } error:^(NSError *error) {
+        
+        errored = YES;
+        
+    }];
+    
+    [_machine inputEvent:@"unregistered"];
+
+    XCTAssertTrue(executed, @"");
+    XCTAssertFalse(errored, @"");
+}
+
+- (void)testTransitionFaults_TransitionFound_DoesNotSend
+{
+    [_machine inputEvent:@"start"];
+    [_machine inputEvent:@"event0"];
+    
+    __block BOOL executed = NO;
+    __block BOOL errored = NO;
+    RACSignal *signal = [_machine transitionFaults];
+    [signal subscribeNext:^(RACTuple *transition) {
+        
+        executed = YES;
+        
+    } error:^(NSError *error) {
+        
+        errored = YES;
+        
+    }];
+    
+    [_machine inputEvent:@"event1"];
+    
+    XCTAssertFalse(executed, @"");
+    XCTAssertFalse(errored, @"");
+}
+
+- (void)testErrorOnTransitionFault_WrapsAllTransitions_SendsErrorOnTransitionFault
+{
+    __block BOOL executed = NO;
+    __block BOOL errored = NO;
+    RACSignal *signal = [CPBSignalMachine errorOnTransitionFault:[_machine allTransitions]];
+    [signal subscribeNext:^(RACTuple *transition) {
+        
+        executed = YES;
+        
+    } error:^(NSError *error) {
+        
+        errored = YES;
+        
+    }];
+    
+    [_machine inputEvent:@"event1"];
+    
+    XCTAssertFalse(executed, @"");
+    XCTAssertTrue(errored, @"");
+}
+
 @end

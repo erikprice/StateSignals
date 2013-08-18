@@ -82,49 +82,12 @@ extern NSInteger const CPBStateSignalsErrorCodeNoTransitionRegistered;
 - (RACSignal *)transitionFaults;
 
 
-#pragma mark Transition signals that send error on fault
+#pragma mark Operations
 
-/// Returns a signal which sends a tuple for every transition made by this signal machine.
-/// The tuple consists of the "from state", the "to state", the input event, and the event context (or NSNull if none was provided).
-/// If a transition is not registered for an event in a given "from state", the tuple's "to state" will be NSNull.
-/// Sends an error if any event is sent which has no corresponding transition mapping.
+/// Returns a signal which behaves identically to `source`, except that it sends an error if a registered transition could not be found (i.e., if the transition "to state" is NSNull).
 ///
-/// @param A Boolean indicating whether the returned signal should send an error if a transition lookup fault occurs.
-/// @return a signal which sends every transition made by this signal machine.
-- (RACSignal *)allTransitionsWithErrorOnTransitionFault:(BOOL)sendErrorOnFault;
-
-/// Returns a signal which sends a tuple for every transition made by this signal machine from the specified state.
-/// The tuple consists of the "from state", the "to state", the input event, and the event context (or NSNull if none was provided).
-/// Sends an error if any event is sent which has no corresponding transition mapping.
-///
-/// @param fromState The "from state" from which transitions must be made to be sent on the returned signal.
-/// @param A Boolean indicating whether the returned signal should send an error if a transition lookup fault occurs.
-/// @return a signal which sends every transition made by this signal machine from the specified state.
-- (RACSignal *)transitionsFrom:(NSString *)fromState errorOnTransitionFault:(BOOL)sendErrorOnFault;
-
-/// Returns a signal which sends a tuple for every transition made by this signal machine from the specified `fromState` to the specified `toState`.
-/// The tuple consists of the "from state", the "to state", the input event, and the event context (or NSNull if none was provided).
-/// Sends an error if any event is sent which has no corresponding transition mapping.
-///
-/// @param fromState The "from state" from which transitions must be made to be sent on the returned signal.
-/// @param toState The "to state" to which transitions must be made to be sent on the returned signal.
-/// @param A Boolean indicating whether the returned signal should send an error if a transition lookup fault occurs.
-/// @return a signal which sends every transition made by this signal machine from the specified `fromState` to the specified `toState`.
-- (RACSignal *)transitionsFrom:(NSString *)fromState to:(NSString *)toState errorOnTransitionFault:(BOOL)sendErrorOnFault;
-
-/// Returns a signal which sends a tuple for every transition made by this signal machine to the specified state.
-/// The tuple consists of the "from state", the "to state", the input event, and the event context (or NSNull if none was provided).
-/// Sends an error if any event is sent which has no corresponding transition mapping.
-///
-/// @param toState The "to state" to which transitions must be made to be sent on the returned signal.
-/// @param A Boolean indicating whether the returned signal should send an error if a transition lookup fault occurs.
-/// @return a signal which sends every transition made by this signal machine to the specified state.
-- (RACSignal *)transitionsTo:(NSString *)toState errorOnTransitionFault:(BOOL)sendErrorOnFault;
-
-/// Returns a signal which sends an error if this signal machine could not find a corresponding registered transition for a given event and/or "from state".
-///
-/// @param A Boolean indicating whether the returned signal should send an error if a transition lookup fault occurs.
-/// @return a signal which sends an error if this signal machine faults a transition lookup.
-- (RACSignal *)transitionFaultsWithError:(BOOL)sendErrorOnFault;
+/// @source The signal whose behavior to modify.
+/// @return a signal which sends an error if `source` sends a transition whose "to state" (the second parameter in the tuple) is NSNull.
++ (RACSignal *)errorOnTransitionFault:(RACSignal *)source;
 
 @end
